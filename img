@@ -1,0 +1,17 @@
+#!/bin/bash
+
+FILE=$1
+ext="${FILE##*.}"
+var=$(md5 $1 | cut -d ' ' -f 4)
+
+cp ${FILE} ${var}"."${ext}
+
+s3cmd put ${var}.${ext} s3://i.jfin.us
+
+rm -fr ${var}.${ext}
+
+echo "http://i.jfin.us/"${var}"."${ext} | pbcopy
+
+echo "Location copied to clipboard."
+
+echo "Found at: http://i.jfin.us/"${var}"."${ext}
